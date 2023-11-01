@@ -1,0 +1,56 @@
+const express = require("express");
+const path = require("path");
+
+const app = express();
+
+const http = require("http");
+const server = http.createServer(app);
+
+const SERVER_PORT = 8080;
+
+const { Server } = require("socket.io");
+
+const io = new Server(server);
+
+// ROUTE FÜR HAUPTSEITE > SERVED index.html file
+app.get("/", function (req, res) {
+  res.sendFile(path.join(__dirname, "/www/index.html"));
+});
+
+app.use(express.static("www")); // ALLE FILES IM ORDNER STATISCH ZUR VERFÜGUNG STELLEN, DAMIT AUCH ASSETS UND SCRIPTE GESERVED WERDEN
+
+// HTTP SERVER FÜR SOCKT UND HTTP --> STARTMESSAGE
+server.listen(SERVER_PORT, () => {
+  console.log("Server started at http://localhost:" + SERVER_PORT);
+});
+
+// SOCKET IO
+io.on("connection", (socket) => {
+  console.log("a user connected");
+  //console.log(socket);
+
+  // EMIT MESSAGE TO EVERYONE CONNECTED:
+  io.emit("message", {
+    msg: "New User Connected!",
+    id: socket.id,
+  });
+
+  // ADD LISTENERS HERE:
+  socket.on("test", (msg) => {
+    console.log("message: " + msg);
+
+    // EMIT MESSAGE TO THE SPECIFIC CLIENT:
+    socket.emit("message", {
+      msg: "Hello Clients!",
+      value: 1234,
+      online: true,
+    });
+  });
+
+  // socket.on("mouse", (msg) => {
+  //   console.log("message: " + msg);
+
+  //   // EMIT MESSAGE TO THE SPECIFIC CLIENT:
+  //   socket.broadcast.emit("mouse", msg);
+  // });
+});
