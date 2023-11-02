@@ -4,23 +4,28 @@ const { SerialPort } = require("serialport");
 const { ReadlineParser } = require("@serialport/parser-readline");
 
 const port = new SerialPort({
-  path: "/dev/tty.usbmodem141201",
+  path: "/dev/tty.usbmodem141101",
   baudRate: 9600,
 });
 
-const parser = port.pipe(new ReadlineParser({ delimiter: "\r\n" }));
-parser.on("data", (data) => {
-  console.log("data:", data);
-});
-
-/* Serial Ports ausgeben am Mac #
+/* 
+Serial Ports ausgeben am Mac #
 
 ls /dev/tty.*
 ls /dev/cu.*
 
+Windows: 
+Gerätemanager > Anschlüsse (COM & LPT) > Arduino Port suchen
+
 */
 
-/*
+const parser = port.pipe(new ReadlineParser({ delimiter: "\r\n" }));
+
+// RECEIVE MESSAGE FROM SERIALPORT / ARDUINO
+parser.on("data", (data) => {
+  console.log("data:", data);
+});
+
 const express = require("express");
 const path = require("path");
 const app = express();
@@ -40,31 +45,17 @@ server.listen(SERVER_PORT, () => {
   console.log("Server started at http://localhost:" + SERVER_PORT);
 });
 
-
 // SOCKET IO
 const { Server } = require("socket.io");
 const io = new Server(server);
-
 
 io.on("connection", (socket) => {
   console.log("a user connected");
   //console.log(socket);
 
-  // EMIT MESSAGE TO EVERYONE CONNECTED:
-  io.emit("message", {
-    msg: "New User Connected!",
-    id: socket.id,
+  // RECEIVE MESSAGE FROM SERIALPORT / ARDUINO
+  parser.on("data", (data) => {
+    console.log("data:", data);
+    socket.emit("message", data); // Daten an Frontend weiter senden
   });
-
-  // ADD LISTENERS HERE:
-  socket.on("test", (msg) => {
-    console.log("message: " + msg);
-
-    // EMIT MESSAGE TO THE SPECIFIC CLIENT:
-    socket.emit("message", {
-      msg: "Hello Clients!",
-      value: 1234,
-      online: true,
-    });
-  });
-}); */
+});
