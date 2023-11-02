@@ -4,14 +4,21 @@ const { SerialPort } = require("serialport");
 const { ReadlineParser } = require("@serialport/parser-readline");
 
 const port = new SerialPort({
-  path: "/dev/tty.usbmodemFA131",
+  path: "/dev/tty.usbmodem141201",
   baudRate: 9600,
 });
 
 const parser = port.pipe(new ReadlineParser({ delimiter: "\r\n" }));
 parser.on("data", (data) => {
-  console.log("data", data);
+  console.log("data:", data);
 });
+
+/* Serial Ports ausgeben am Mac #
+
+ls /dev/tty.*
+ls /dev/cu.*
+
+*/
 
 /*
 const express = require("express");

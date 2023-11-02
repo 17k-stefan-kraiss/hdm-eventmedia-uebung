@@ -19,15 +19,14 @@ app.get("/", function (req, res) {
 
 app.use(express.static("www")); // ALLE FILES IM ORDNER STATISCH ZUR VERFÜGUNG STELLEN, DAMIT AUCH ASSETS UND SCRIPTE GESERVED WERDEN
 
-// HTTP SERVER FÜR SOCKT UND HTTP --> STARTMESSAGE
+// HTTP SERVER FÜR SOCKET UND HTTP --> STARTMESSAGE
 server.listen(SERVER_PORT, () => {
   console.log("Server started at http://localhost:" + SERVER_PORT);
 });
 
 // SOCKET IO
 io.on("connection", (socket) => {
-  console.log("a user connected");
-  //console.log(socket);
+  console.log("a user connected", socket);
 
   // EMIT MESSAGE TO EVERYONE CONNECTED:
   io.emit("message", {
@@ -37,11 +36,11 @@ io.on("connection", (socket) => {
 
   // ADD LISTENERS HERE:
   socket.on("test", (msg) => {
-    console.log("message: " + msg);
+    console.log("test message: " + msg);
 
     // EMIT MESSAGE TO THE SPECIFIC CLIENT:
     socket.emit("message", {
-      msg: "Hello Clients!",
+      msg: "Hello Client!",
       value: 1234,
       online: true,
     });
@@ -50,7 +49,7 @@ io.on("connection", (socket) => {
   // socket.on("mouse", (msg) => {
   //   console.log("message: " + msg);
 
-  //   // EMIT MESSAGE TO THE SPECIFIC CLIENT:
+  //   // EMIT MESSAGE TO THE ALL OTHER CLIENTS:
   //   socket.broadcast.emit("mouse", msg);
   // });
 });
