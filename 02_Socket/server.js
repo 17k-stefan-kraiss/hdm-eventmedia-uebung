@@ -46,10 +46,10 @@ io.on("connection", (socket) => {
   //   });
   // });
 
-  socket.on("mouse", (msg) => {
-    console.log("message: " + msg);
+  // socket.on("mouse", (msg) => {
+  //   console.log("message: " + msg);
 
-    // EMIT MESSAGE TO THE ALL OTHER CLIENTS:
-    socket.broadcast.emit("mouse", msg);
-  });
+  //   // EMIT MESSAGE TO THE ALL OTHER CLIENTS:
+  //   socket.broadcast.emit("mouse", msg);
+  // });
 });

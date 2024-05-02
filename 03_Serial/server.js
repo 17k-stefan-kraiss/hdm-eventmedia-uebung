@@ -4,7 +4,7 @@ const { SerialPort } = require("serialport");
 const { ReadlineParser } = require("@serialport/parser-readline");
 
 const port = new SerialPort({
-  path: "/dev/tty.usbmodem141101",
+  path: "/dev/tty.usbserial-14110",
   baudRate: 9600,
 });
 
@@ -18,13 +18,16 @@ Windows:
 Gerätemanager > Anschlüsse (COM & LPT) > Arduino Port suchen
 
 */
-
+let sensorData = 0;
 const parser = port.pipe(new ReadlineParser({ delimiter: "\r\n" }));
 
 // RECEIVE MESSAGE FROM SERIALPORT / ARDUINO
 parser.on("data", (data) => {
   console.log("data:", data);
+  sensorData = data;
 });
+
+// ---  ab hier Server Code um Daten weiterzuleiten
 
 const express = require("express");
 const path = require("path");
@@ -45,7 +48,7 @@ server.listen(SERVER_PORT, () => {
   console.log("Server started at http://localhost:" + SERVER_PORT);
 });
 
-// SOCKET IO
+// SOCKET IO UM DATEN AN BROWSER ZU SENDEN
 const { Server } = require("socket.io");
 const io = new Server(server);
 
