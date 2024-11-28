@@ -22,10 +22,15 @@ let sensorData = 0;
 const parser = port.pipe(new ReadlineParser({ delimiter: "\r\n" }));
 
 // RECEIVE MESSAGE FROM SERIALPORT / ARDUINO
+/*
 parser.on("data", (data) => {
-  console.log("data:", data);
+  //console.log("data:", data);
   sensorData = data;
-});
+
+  // if (sensorData < 300) {
+  //   console.log("ALARM");
+  // }
+}); */
 
 // ---  ab hier Server Code um Daten weiterzuleiten
 
@@ -56,9 +61,17 @@ io.on("connection", (socket) => {
   console.log("a user connected");
   //console.log(socket);
 
-  // RECEIVE MESSAGE FROM SERIALPORT / ARDUINO
-  parser.on("data", (data) => {
-    console.log("data:", data);
-    socket.emit("message", data); // Daten an Frontend weiter senden
+  socket.on("button", (msg) => {
+    console.log("message: " + msg);
+
+    // EMIT MESSAGE TO THE ALL OTHER CLIENTS:
+    //socket.broadcast.emit("mouse", msg);
   });
+
+  // RECEIVE MESSAGE FROM SERIALPORT / ARDUINO
+});
+
+parser.on("data", (data) => {
+  //console.log("data:", data);
+  io.emit("message", data); // Daten an Frontend weiter senden
 });

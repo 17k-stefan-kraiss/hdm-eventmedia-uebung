@@ -20,36 +20,36 @@ server.listen(SERVER_PORT, () => {
   console.log("Server started at http://localhost:" + SERVER_PORT);
 });
 
+// SOCKET IO
 const { Server } = require("socket.io");
 
 const io = new Server(server);
 
-// SOCKET IO
 io.on("connection", (socket) => {
   console.log("a user connected", socket.id);
 
   // EMIT MESSAGE TO EVERYONE CONNECTED:
-  // io.emit("message", {
-  //   msg: "New User Connected!",
-  //   id: socket.id,
-  // });
+  io.emit("message", {
+    msg: "New User Connected!",
+    id: socket.id,
+  });
 
   // // ADD LISTENERS HERE:
-  // socket.on("test", (msg) => {
-  //   console.log("test message: " + msg);
+  socket.on("test", (msg) => {
+    console.log("test message: " + msg);
 
-  //   // EMIT MESSAGE TO THE SPECIFIC CLIENT:
-  //   socket.emit("message", {
-  //     msg: "Hello Client!",
-  //     value: 1234,
-  //     online: true,
-  //   });
-  // });
+    // EMIT MESSAGE TO THE SPECIFIC CLIENT:
+    socket.emit("message", {
+      msg: "Hello Client!",
+      value: 1234,
+      online: true,
+    });
+  });
 
-  // socket.on("mouse", (msg) => {
-  //   console.log("message: " + msg);
+  socket.on("mouse", (msg) => {
+    console.log("message: " + msg);
 
-  //   // EMIT MESSAGE TO THE ALL OTHER CLIENTS:
-  //   socket.broadcast.emit("mouse", msg);
-  // });
+    // EMIT MESSAGE TO THE ALL OTHER CLIENTS:
+    socket.broadcast.emit("mouse", msg);
+  });
 });

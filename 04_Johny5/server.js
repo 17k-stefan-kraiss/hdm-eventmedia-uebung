@@ -1,17 +1,21 @@
 // JOHNE FIVE - ARDUINO
 
-var five = require("johnny-five"),
-  button,
-  led;
+const five = require("johnny-five");
+let button;
+let led;
+let sensor;
 
 five.Board().on("ready", function () {
+  // Button definieren
   button = new five.Button({
     pin: 2,
     isPullup: true,
   });
 
+  // LED Pin definieren
   led = new five.Led(13);
 
+  // Event um Werteänderung des Buttons zu empfangen
   button.on("down", function (value) {
     led.on();
   });
@@ -19,6 +23,14 @@ five.Board().on("ready", function () {
   button.on("up", function () {
     led.off();
   });
+
+  /*
+  // Helligkeitssensor initialisieren
+  sensor = new five.Light("A0");
+  // Event um Werteänderung des Sensors zu empfangen
+  sensor.on("change", function () {
+    console.log(this.level);
+  }); */
 });
 
 /*
