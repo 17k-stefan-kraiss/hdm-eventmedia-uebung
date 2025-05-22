@@ -4,7 +4,7 @@ var socket = io();
 // RECEIVE MESSAGE FROM SERVER
 
 // ---- Vanilla Javascript Beispiel ----
-/*let count = 0;
+let count = 0;
 socket.on("message", function (data) {
   // console.log(data, socket);
 
@@ -25,7 +25,7 @@ socket.on("message", function (data) {
 
   if (data.id === socket.id) console.log("THAT'S ME!");
   else console.log("THAT'S SOMEONE ELSE");
-});*/
+});
 
 // ---- Vanilla Javascript Beispiel ENDE ----
 
@@ -34,7 +34,7 @@ document.getElementById("button").addEventListener("click", function () {
   socket.emit("button", "pressed");
 });
 
-// ––– P5.js Beispiel –––
+/*// ––– P5.js Beispiel –––
 let ellipseSize = 0;
 
 function setup() {
@@ -48,11 +48,9 @@ function draw() {
 }
 
 socket.on("message", function (data) {
-  // Existing code...
-
   // Update ellipse size based on data
 
   ellipseSize = data * 200;
 });
 
-// ––– P5.js Beispiel ENDE –––
+// ––– P5.js Beispiel ENDE ––– */
