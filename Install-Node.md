@@ -2,7 +2,7 @@ Bei der Installation von Node.js auf Windows kann es sein, dass die Berechtigung
 
 Dazu wie folgt vorgehen:
 
-1. Testen ob Berechtitungen gesetzt sind:
+1. Testen ob Berechtigungen gesetzt sind:
 
 - Powershell, CMD oder Terminal in VSCode öffnen.
 - folgendes eingeben:
