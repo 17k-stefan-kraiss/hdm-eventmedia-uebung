@@ -17,7 +17,7 @@ socket.on("message", function (data) {
   block.style.width = data + "px";
   block.style.height = data + "px";
 
-  if (data < 100) {
+  if (data > 0) {
     count++;
     var counter = document.getElementById("counter");
     counter.innerHTML = count;
@@ -27,12 +27,12 @@ socket.on("message", function (data) {
   else console.log("THAT'S SOMEONE ELSE");
 });*/
 
+// ---- Vanilla Javascript Beispiel ENDE ----
+
 // SEND MESSAGE TO SERVER
 document.getElementById("button").addEventListener("click", function () {
   socket.emit("button", "pressed");
 });
-
-// ---- Vanilla Javascript Beispiel ENDE ----
 
 // ––– P5.js Beispiel –––
 let ellipseSize = 0;
@@ -50,8 +50,9 @@ function draw() {
 socket.on("message", function (data) {
   // Existing code...
 
-  // Update ellipse size
-  ellipseSize = data;
+  // Update ellipse size based on data
+
+  ellipseSize = data * 200;
 });
 
 // ––– P5.js Beispiel ENDE –––
