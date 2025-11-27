@@ -4,8 +4,8 @@ const { SerialPort } = require("serialport");
 const { ReadlineParser } = require("@serialport/parser-readline");
 
 const port = new SerialPort({
-  path: "/dev/tty.usbserial-2140", // COM3, COM4, COM5, COM6 etc. auf Windows
-  baudRate: 9600,
+  path: "/dev/tty.usbserial-0001", // COM3, COM4, COM5, COM6 etc. auf Windows
+  baudRate: 115200,
 });
 
 /* 
