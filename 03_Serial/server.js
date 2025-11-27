@@ -4,7 +4,7 @@ const { SerialPort } = require("serialport");
 const { ReadlineParser } = require("@serialport/parser-readline");
 
 const port = new SerialPort({
-  path: "/dev/tty.usbserial-2140",
+  path: "/dev/tty.usbserial-2140", // COM3, COM4, COM5, COM6 etc. auf Windows
   baudRate: 9600,
 });
 
@@ -22,18 +22,16 @@ let sensorData = 0;
 const parser = port.pipe(new ReadlineParser({ delimiter: "\r\n" }));
 
 // RECEIVE MESSAGE FROM SERIALPORT / ARDUINO
-/*
-parser.on("data", (data) => {
-  //console.log("data:", data);
-  sensorData = data;
 
-  // if (sensorData < 300) {
-  //   console.log("ALARM");
-  // }
-}); */
+// Event wenn Parser neue Zeile empfängt
+
+parser.on("data", (data) => {
+  console.log("data:", data);
+  sensorData = data;
+});
 
 // ---  ab hier Server Code um Daten weiterzuleiten
-
+/*
 const express = require("express");
 const path = require("path");
 const app = express();
@@ -74,4 +72,4 @@ io.on("connection", (socket) => {
 parser.on("data", (data) => {
   //console.log("data:", data);
   io.emit("message", data); // Daten an Frontend weiter senden
-});
+}); */

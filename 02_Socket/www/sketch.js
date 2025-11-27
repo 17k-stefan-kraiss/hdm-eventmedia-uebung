@@ -3,17 +3,23 @@ var socket = io();
 
 // SIMPLE BUTTON THAT EMITS MESSAGE
 var testButton = document.getElementById("test");
+
 testButton.addEventListener("click", function (e) {
   console.log("Test button pressed");
   socket.emit("test", "Hello World!"); // SEND VALUE TO SERVER
 });
 
 // // RECEIVE MESSAGE FROM SERVER
-socket.on("message", function (data) {
-  console.log(data, socket);
-
-  if (data.id === socket.id) console.log("THAT'S ME!");
-  else console.log("THAT'S SOMEONE ELSE");
+socket.on("message", function (bla) {
+  console.log(bla, socket);
+  if (bla.online) {
+    console.log("User pressed button", bla.msg);
+  } else {
+    if (bla.id === socket.id) console.log("THAT'S ME!", bla.msg);
+    else {
+      console.log("THAT'S SOMEONE ELSE");
+    }
+  }
 });
 
 // MOUSE MOVEMENT EMIT
@@ -28,7 +34,7 @@ window.addEventListener("mousemove", function (e) {
 
 // RECEIVE MOUSE MOVEMENT FROM SERVER
 socket.on("mouse", function (data) {
-  if (data.id === socket.id) console.log("THAT'S ME!");
+  if (data.id === socket.id) return; // console.log("THAT'S ME!");
   else {
     // IF ELEMEMT DOES NOT EXIST, CREATE NEW MOUSE
     if (!document.getElementById(data.id)) {

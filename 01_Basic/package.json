@@ -4,7 +4,7 @@
   "description": "simple express serve",
   "main": "server.js",
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.21.2"
   },
   "scripts": {
     "test": "test",

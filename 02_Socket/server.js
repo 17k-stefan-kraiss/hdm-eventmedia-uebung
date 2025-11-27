@@ -29,10 +29,10 @@ io.on("connection", (socket) => {
   console.log("a user connected", socket.id);
 
   // EMIT MESSAGE TO EVERYONE CONNECTED:
-  io.emit("message", {
-    msg: "New User Connected!",
-    id: socket.id,
-  });
+  // io.emit("message", {
+  //   msg: "New User Connected!",
+  //   id: socket.id,
+  // });
 
   // // ADD LISTENERS HERE:
   // socket.on("test", (msg) => {
